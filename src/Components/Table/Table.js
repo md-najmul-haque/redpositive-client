@@ -9,6 +9,22 @@ const Table = () => {
 
     const onSubmit = (data) => {
         console.log(data)
+
+        const userInfo = {
+            name: data.name,
+            phone: data.phone,
+            email: data.email,
+            hobby: data.hobby
+        }
+
+        fetch('http://localhost:5000/', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(userInfo)
+        })
+            .then(res => res.json())
+            .then(data => console.log(data))
+
         setIsOpen(false)
     };
 
@@ -60,17 +76,11 @@ const Table = () => {
                                     leaveTo="opacity-0 scale-95"
                                 >
                                     <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                        <Dialog.Title
-                                            as="h3"
-                                            className="text-lg font-medium leading-6 text-gray-900"
-                                        >
-                                            Payment successful
-                                        </Dialog.Title>
                                         <div className="mt-2">
                                             <div className='flex justify-center items-center'>
-                                                <div className="card w-96 bg-base-100 shadow-xl">
+                                                <div className="card w-96 bg-base-100">
                                                     <div className="card-body">
-                                                        <h2 className="text-center text-2xl font-bold">Input Form</h2>
+                                                        <h2 className="text-center text-2xl font-semibold">Input Form</h2>
 
                                                         <form onSubmit={handleSubmit(onSubmit)}>
                                                             <div className="form-control w-full max-w-xs">
