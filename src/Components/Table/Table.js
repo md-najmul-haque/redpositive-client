@@ -1,30 +1,48 @@
 import { Dialog, Transition } from '@headlessui/react'
+import { useQuery } from '@tanstack/react-query';
 import { Fragment, useState } from 'react'
 import { useForm } from "react-hook-form";
+import { toast } from 'react-toastify';
+import Loading from '../Loading/Loading';
+import UserRow from '../UserRow/UserRow';
 
 const Table = () => {
     let [isOpen, setIsOpen] = useState(false)
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-    const onSubmit = (data) => {
-        console.log(data)
+    const { data: users, isLoading, error, refetch } = useQuery(['users'], () =>
+        fetch('http://localhost:5000/users').then(res =>
+            res.json()
+        )
+    )
 
-        const userInfo = {
+    if (isLoading) {
+        return <Loading />
+    }
+
+
+    if (error) return 'An error has occurred: ' + error.message
+
+    const onSubmit = (data) => {
+        const user = {
             name: data.name,
             phone: data.phone,
             email: data.email,
             hobby: data.hobby
         }
 
-        fetch('http://localhost:5000/', {
+        console.log(user);
+
+        fetch('http://localhost:5000/users', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(userInfo)
+            body: JSON.stringify(user)
         })
             .then(res => res.json())
             .then(data => console.log(data))
-
+        toast("Data saved successfully")
+        reset()
         setIsOpen(false)
     };
 
@@ -181,14 +199,10 @@ const Table = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <th>1</th>
-                                <td>Cy Ganderton</td>
-                                <td>Quality Control Specialist</td>
-                                <td>Littel, Schaden and Vandervort</td>
-                                <td>Canada</td>
-                                <td><button className="btn btn-sm">Update</button> <button className="btn btn-sm mr-5">Delete</button></td>
-                            </tr>
+                            {
+                                users.map(user => <UserRow key={user._id} user={user} />)
+
+                            }
                         </tbody>
                     </table>
                 </div>
