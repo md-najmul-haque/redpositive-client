@@ -12,7 +12,7 @@ const Table = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const { data: users, isLoading, error, refetch } = useQuery(['users'], () =>
-        fetch('http://localhost:5000/users').then(res =>
+        fetch('https://ancient-waters-15741.herokuapp.com/users').then(res =>
             res.json()
         )
     )
@@ -34,7 +34,7 @@ const Table = () => {
 
         console.log(user);
 
-        fetch('http://localhost:5000/user', {
+        fetch('https://ancient-waters-15741.herokuapp.com/user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)

@@ -13,7 +13,7 @@ const UserRow = ({ user }) => {
     const handleUpdate = id => {
         setIsOpen(true)
 
-        fetch(`http://localhost:5000/user/${id}`)
+        fetch(`https://ancient-waters-15741.herokuapp.com/user/${id}`)
             .then(res => res.json())
             .then(user => setData(user))
 
@@ -28,7 +28,7 @@ const UserRow = ({ user }) => {
         }
 
 
-        fetch(`http://localhost:5000/user/${_id}`, {
+        fetch(`https://ancient-waters-15741.herokuapp.com/user/${_id}`, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
@@ -52,7 +52,7 @@ const UserRow = ({ user }) => {
     }
 
     const handleDelete = id => {
-        fetch(`http://localhost:5000/user/${id}`, {
+        fetch(`https://ancient-waters-15741.herokuapp.com/user/${id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         })
