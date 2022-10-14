@@ -19,7 +19,7 @@ const Navbar = () => {
                             {menuItem}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-xl">Full-Stack</a>
+                    <a href='#' className="btn btn-ghost normal-case text-xl">Redpositive</a>
                 </div>
                 <div className="navbar-end hidden lg:flex">
                     <ul className="menu menu-horizontal p-0">

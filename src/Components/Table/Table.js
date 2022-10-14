@@ -34,7 +34,7 @@ const Table = () => {
 
         console.log(user);
 
-        fetch('http://localhost:5000/users', {
+        fetch('http://localhost:5000/user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
@@ -72,7 +72,7 @@ const Table = () => {
                     <button
                         type="button"
                         onClick={openModal}
-                        className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
+                        className="rounded-md bg-black px-4 py-2 text-sm font-medium text-white hover:bg-opacity-80 mb-5"
                     >
                         Add New Data
                     </button>
@@ -103,85 +103,84 @@ const Table = () => {
                                     leaveFrom="opacity-100 scale-100"
                                     leaveTo="opacity-0 scale-95"
                                 >
-                                    <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
-                                        <div className="mt-2">
-                                            <div className='flex justify-center items-center'>
-                                                <div className="card w-96 bg-base-100">
-                                                    <div className="card-body">
-                                                        <h2 className="text-center text-2xl font-semibold">Input Form</h2>
+                                    <Dialog.Panel className="w-full max-w-md  overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transform transition-all">
 
-                                                        <form onSubmit={handleSubmit(onSubmit)}>
-                                                            <div className="form-control w-full max-w-xs">
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder="Your Name"
-                                                                    className="input input-bordered w-full max-w-xs"
-                                                                    {...register("name", {
-                                                                        required: {
-                                                                            value: true,
-                                                                            message: 'Name is required'
-                                                                        }
-                                                                    })} />
-                                                                <label className="label">
-                                                                    {errors?.name?.type === 'required' && <span className="label-text-alt text-red-500">{errors.name.message}</span>}
-                                                                </label>
-                                                            </div>
+                                        <div className='flex justify-center items-center'>
+                                            <div className="card w-96 bg-base-100">
+                                                <div className="card-body">
+                                                    <h2 className="text-center text-2xl font-semibold">Input Form</h2>
 
-                                                            <div className="form-control w-full max-w-xs">
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder="Your Phone Number"
-                                                                    className="input input-bordered w-full max-w-xs"
-                                                                    {...register("phone", {
-                                                                        required: {
-                                                                            value: true,
-                                                                            message: 'Phone number is required'
-                                                                        }
-                                                                    })} />
-                                                                <label className="label">
-                                                                    {errors?.phone?.type === 'required' && <span className="label-text-alt text-red-500">{errors.phone.message}</span>}
-                                                                </label>
-                                                            </div>
-
-                                                            <div className="form-control w-full max-w-xs">
-                                                                <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" {...register("email", {
+                                                    <form onSubmit={handleSubmit(onSubmit)}>
+                                                        <div className="form-control w-full max-w-xs">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Your Name"
+                                                                className="input input-bordered w-full max-w-xs"
+                                                                {...register("name", {
                                                                     required: {
                                                                         value: true,
-                                                                        message: 'Email is required'
-                                                                    },
-                                                                    pattern: {
-                                                                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                                                        message: 'Please provide valid email address'
+                                                                        message: 'Name is required'
                                                                     }
                                                                 })} />
+                                                            <label className="label">
+                                                                {errors?.name?.type === 'required' && <span className="label-text-alt text-red-500">{errors.name.message}</span>}
+                                                            </label>
+                                                        </div>
 
-                                                                <label className="label">
-                                                                    {errors?.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
-                                                                    {errors?.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
-                                                                </label>
-                                                            </div>
+                                                        <div className="form-control w-full max-w-xs">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Your Phone Number"
+                                                                className="input input-bordered w-full max-w-xs"
+                                                                {...register("phone", {
+                                                                    required: {
+                                                                        value: true,
+                                                                        message: 'Phone number is required'
+                                                                    }
+                                                                })} />
+                                                            <label className="label">
+                                                                {errors?.phone?.type === 'required' && <span className="label-text-alt text-red-500">{errors.phone.message}</span>}
+                                                            </label>
+                                                        </div>
 
-                                                            <div className="form-control w-full max-w-xs">
-                                                                <input
-                                                                    type="text"
-                                                                    placeholder="Your Hobby"
-                                                                    className="input input-bordered w-full max-w-xs"
-                                                                    {...register("hobby", {
-                                                                        required: {
-                                                                            value: true,
-                                                                            message: 'Hobby is required'
-                                                                        }
-                                                                    })} />
-                                                                <label className="label">
-                                                                    {errors?.hobby?.type === 'required' && <span className="label-text-alt text-red-500">{errors.hobby.message}</span>}
-                                                                </label>
-                                                            </div>
-                                                            <div className="modal-action">
-                                                                <input type="submit" htmlFor="add-data" className="btn w-full bg-primary text-white mt-5" value='Submit' />
-                                                            </div>
-                                                        </form>
+                                                        <div className="form-control w-full max-w-xs">
+                                                            <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" {...register("email", {
+                                                                required: {
+                                                                    value: true,
+                                                                    message: 'Email is required'
+                                                                },
+                                                                pattern: {
+                                                                    value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                                                    message: 'Please provide valid email address'
+                                                                }
+                                                            })} />
 
-                                                    </div>
+                                                            <label className="label">
+                                                                {errors?.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
+                                                                {errors?.email?.type === 'pattern' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
+                                                            </label>
+                                                        </div>
+
+                                                        <div className="form-control w-full max-w-xs">
+                                                            <input
+                                                                type="text"
+                                                                placeholder="Your Hobby"
+                                                                className="input input-bordered w-full max-w-xs"
+                                                                {...register("hobby", {
+                                                                    required: {
+                                                                        value: true,
+                                                                        message: 'Hobby is required'
+                                                                    }
+                                                                })} />
+                                                            <label className="label">
+                                                                {errors?.hobby?.type === 'required' && <span className="label-text-alt text-red-500">{errors.hobby.message}</span>}
+                                                            </label>
+                                                        </div>
+                                                        <div className="modal-action">
+                                                            <input type="submit" htmlFor="add-data" className="btn w-full bg-primary text-white mt-5" value='Submit' />
+                                                        </div>
+                                                    </form>
+
                                                 </div>
                                             </div>
                                         </div>

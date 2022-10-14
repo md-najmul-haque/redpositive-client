@@ -6,11 +6,17 @@ import { useForm } from 'react-hook-form';
 const UserRow = ({ user }) => {
     const { _id, name, phone, email, hobby } = user
 
+    const [data, setData] = useState('')
     let [isOpen, setIsOpen] = useState(false)
     const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
     const handleUpdate = id => {
         setIsOpen(true)
+
+        fetch(`http://localhost:5000/user/${id}`)
+            .then(res => res.json())
+            .then(user => setData(user))
+
     }
 
     const onSubmit = (data) => {
@@ -21,42 +27,32 @@ const UserRow = ({ user }) => {
             hobby: data.hobby
         }
 
-        console.log(user);
 
-        fetch('http://localhost:5000/users', {
-            method: 'POST',
+        fetch(`http://localhost:5000/user/${_id}`, {
+            method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(user)
         })
             .then(res => res.json())
             .then(data => {
+                console.log(data)
                 if (data.success === true) {
-                    toast.success("Data saved successfully")
+                    toast.success("user data updated successfully")
                     reset()
                     setIsOpen(false)
 
                 } else {
-                    toast.error("Failed to inserted data. Please try again later")
+                    toast.error("Failed to updated data. Please try again later")
                 }
             })
-
-
-
     };
-
-
 
     function closeModal() {
         setIsOpen(false)
     }
 
-    function openModal() {
-        setIsOpen(true)
-    }
-
-
     const handleDelete = id => {
-        fetch(`http://localhost:5000/users/${id}`, {
+        fetch(`http://localhost:5000/user/${id}`, {
             method: 'DELETE',
             headers: { 'Content-Type': 'application/json' },
         })
@@ -81,8 +77,8 @@ const UserRow = ({ user }) => {
             <td>{email ? email : ''}</td>
             <td>{hobby ? hobby : ''}</td>
             <td>
-                <button onClick={() => handleUpdate(_id)} className="btn btn-sm">Update</button>
-                <button onClick={() => handleDelete(_id)} className="btn btn-sm mr-5">Delete</button>
+                <button onClick={() => handleUpdate(_id)} className="btn bg-black btn-sm mt-5">Update</button>
+                <button onClick={() => handleDelete(_id)} className="btn bg-black btn-sm ml-5">Delete</button>
             </td>
             <>
                 <Transition appear show={isOpen} as={Fragment}>
@@ -123,6 +119,7 @@ const UserRow = ({ user }) => {
                                                                     type="text"
                                                                     placeholder="Your Name"
                                                                     className="input input-bordered w-full max-w-xs"
+                                                                    defaultValue={data.name}
                                                                     {...register("name", {
                                                                         required: {
                                                                             value: true,
@@ -139,6 +136,7 @@ const UserRow = ({ user }) => {
                                                                     type="text"
                                                                     placeholder="Your Phone Number"
                                                                     className="input input-bordered w-full max-w-xs"
+                                                                    defaultValue={data.phone}
                                                                     {...register("phone", {
                                                                         required: {
                                                                             value: true,
@@ -151,16 +149,18 @@ const UserRow = ({ user }) => {
                                                             </div>
 
                                                             <div className="form-control w-full max-w-xs">
-                                                                <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs" {...register("email", {
-                                                                    required: {
-                                                                        value: true,
-                                                                        message: 'Email is required'
-                                                                    },
-                                                                    pattern: {
-                                                                        value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-                                                                        message: 'Please provide valid email address'
-                                                                    }
-                                                                })} />
+                                                                <input type="text" placeholder="Type here" className="input input-bordered w-full max-w-xs"
+                                                                    defaultValue={data.email}
+                                                                    {...register("email", {
+                                                                        required: {
+                                                                            value: true,
+                                                                            message: 'Email is required'
+                                                                        },
+                                                                        pattern: {
+                                                                            value: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+                                                                            message: 'Please provide valid email address'
+                                                                        }
+                                                                    })} />
 
                                                                 <label className="label">
                                                                     {errors?.email?.type === 'required' && <span className="label-text-alt text-red-500">{errors.email.message}</span>}
@@ -173,6 +173,7 @@ const UserRow = ({ user }) => {
                                                                     type="text"
                                                                     placeholder="Your Hobby"
                                                                     className="input input-bordered w-full max-w-xs"
+                                                                    defaultValue={data.hobby}
                                                                     {...register("hobby", {
                                                                         required: {
                                                                             value: true,
