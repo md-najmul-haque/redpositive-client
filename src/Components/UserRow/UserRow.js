@@ -3,7 +3,7 @@ import { toast } from 'react-toastify';
 import { Dialog, Transition } from '@headlessui/react'
 import { useForm } from 'react-hook-form';
 
-const UserRow = ({ user }) => {
+const UserRow = ({ user, refetch }) => {
     const { _id, name, phone, email, hobby } = user
 
     const [data, setData] = useState('')
@@ -40,6 +40,7 @@ const UserRow = ({ user }) => {
                     toast.success("user data updated successfully")
                     reset()
                     setIsOpen(false)
+                    refetch()
 
                 } else {
                     toast.error("Failed to updated data. Please try again later")
@@ -60,6 +61,7 @@ const UserRow = ({ user }) => {
             .then(data => {
                 if (data.success === true) {
                     toast.success("User data deleted successfully")
+                    refetch()
 
                 } else {
                     toast.error("Failed to deleted user data. Please try again later")
