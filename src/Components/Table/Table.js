@@ -40,10 +40,20 @@ const Table = () => {
             body: JSON.stringify(user)
         })
             .then(res => res.json())
-            .then(data => console.log(data))
-        toast("Data saved successfully")
-        reset()
-        setIsOpen(false)
+            .then(data => {
+                if (data.success === true) {
+                    toast.success("Data saved successfully")
+                    reset()
+                    refetch()
+                    setIsOpen(false)
+
+                } else {
+                    toast.error("Failed to inserted data. Please try again later")
+                }
+            })
+
+
+
     };
 
     function closeModal() {
